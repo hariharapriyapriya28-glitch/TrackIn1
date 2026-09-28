@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>TrackIn – Attendance Navigator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<style>
+:root{--bg:#f1f3fb;--card:#fff;--tx:#0f1530;--mu:#465073;--bd:#d5daea;--ac:#4f46e5;
+--gc:#0a7a43;--gb:#dcf6e6;--yc:#8a6100;--yb:#fff1c2;--oc:#a24a00;--ob:#ffe0c2;--rc:#b42318;--rb:#ffd6d2;--kc:#fff;--kb:#3b0d4f}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0e1f;--card:#161a30;--tx:#f4f6ff;--mu:#b6bddd;--bd:#2f3557;--ac:#a5b4fc;--gc:#6ee7a1;--gb:#123d28;--yc:#ffd86b;--yb:#43380f;--oc:#ffb36b;--ob:#4b2c10;--rc:#ff9d94;--rb:#521a1a;--kb:#7c2d9c}}
+:root[data-theme="dark"]{--bg:#0b0e1f;--card:#161a30;--tx:#f4f6ff;--mu:#b6bddd;--bd:#2f3557;--ac:#a5b4fc;--gc:#6ee7a1;--gb:#123d28;--yc:#ffd86b;--yb:#43380f;--oc:#ffb36b;--ob:#4b2c10;--rc:#ff9d94;--rb:#521a1a;--kb:#7c2d9c}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.5 'Plus Jakarta Sans',system-ui,Segoe UI,Roboto,sans-serif}
+.hero{color:#fff;padding:24px 16px 70px;background:radial-gradient(circle at 12% 15%,#c026d377,transparent 38%),radial-gradient(circle at 88% 25%,#06b6d477,transparent 40%),linear-gradient(135deg,#1e1b4b,#134e4a)}
+.w{max-width:1040px;margin:auto}.top{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+h1{margin:0;font-size:34px;font-weight:800;letter-spacing:-.5px}.tag{margin:2px 0 0;font-size:16px}
+label.l{display:block;font-size:12px;font-weight:800;letter-spacing:.8px;opacity:.9;margin-bottom:3px}
+select,input{font:inherit;font-weight:700;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:12px;padding:9px 12px}
+.hero select{min-width:180px;border-color:#fff}
+.seg{display:inline-flex;background:#ffffff26;border-radius:12px;padding:3px}.seg button{font:inherit;font-weight:800;border:0;background:none;color:#fff;padding:8px 14px;border-radius:9px;cursor:pointer}.seg button.on{background:#fff;color:#1e1b4b}
+.mid{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:20px}
+.ring{position:relative;width:150px;height:150px;flex:none}.ring svg{width:100%;height:100%}
+.rb,.rf{fill:none;stroke-width:12}.rb{stroke:#ffffff35}.rf{stroke:#fff;stroke-linecap:round;stroke-dasharray:0 315;transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dasharray .7s}
+.rt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.rt b{font-size:30px;line-height:1}.rt small{font-size:13px;font-weight:700;margin-top:4px}
+.sum{flex:1;min-width:250px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.sum div{background:#ffffff24;border:1px solid #ffffff55;border-radius:16px;padding:12px 14px;backdrop-filter:blur(6px)}
+.sum small{display:block;font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}.sum b{font-size:21px;line-height:1.25;display:block}
+main{max-width:1040px;margin:-42px auto 0;padding:0 16px 30px}
+.tabs{display:flex;gap:6px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:6px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;box-shadow:0 6px 18px #0003}
+.tabs button{flex:1;font:inherit;font-weight:800;font-size:15px;padding:12px 6px;border:0;border-radius:11px;background:none;color:var(--mu);cursor:pointer}.tabs button.on{background:var(--ac);color:#fff}
+.pane{display:none;margin-top:16px}.pane.on{display:block}
+.bar2{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.bt{font:inherit;font-weight:700;font-size:14px;padding:9px 14px;border-radius:99px;border:2px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}.bt.on{border-color:var(--ac);background:var(--ac);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.sc,.box{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:15px;box-shadow:0 2px 10px #0000000d}
+.sc{border-top:7px solid var(--c,var(--bd));transition:transform .15s}.sc:hover{transform:translateY(-3px)}
+.hd{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.ic{font-size:22px;background:var(--b);width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none}
+.nm{font-weight:800;font-size:17px;line-height:1.3;flex:1;margin:0 8px}.badge{font-size:13px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--b);color:var(--f);white-space:nowrap}
+.g{--c:var(--gc);--b:var(--gb);--f:var(--gc)}.y{--c:var(--yc);--b:var(--yb);--f:var(--yc)}.o{--c:var(--oc);--b:var(--ob);--f:var(--oc)}.r{--c:var(--rc);--b:var(--rb);--f:var(--rc)}.k{--c:var(--kb);--b:var(--kb);--f:var(--kc)}
+.nums{display:flex;gap:18px;align-items:flex-end;margin:10px 0}.pct{font-size:42px;font-weight:800;line-height:1;color:var(--c)}.pct small{font-size:20px}
+.nums span{font-size:14px;color:var(--mu);font-weight:600}.nums span b{display:block;font-size:22px;color:var(--tx)}
+.bar{position:relative;height:16px;border-radius:9px;background:var(--bd);margin:14px 0 28px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;transition:width .5s}.bar .mx{background:var(--c);opacity:.3}.bar .nw{background:var(--c)}
+.bar u{position:absolute;top:-5px;bottom:-5px;width:3px;background:var(--tx)}.bar u em{position:absolute;top:22px;left:-12px;font:800 12px 'Plus Jakarta Sans',sans-serif;font-style:normal;color:var(--mu)}
+.f{font-size:15px;color:var(--mu);margin:3px 0}.f b{color:var(--tx)}
+.wi{margin-top:10px;background:var(--bg);border-radius:12px;padding:8px 10px;font-size:14px;font-weight:600}.wi input{width:100%;padding:0;border:0;accent-color:var(--ac);background:none}
+.inp{display:flex;gap:10px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--bd)}.inp label{flex:1;font-size:13px;font-weight:800;color:var(--mu)}
+.st{display:flex;margin-top:3px}.st button{width:40px;font:800 20px 'Plus Jakarta Sans',sans-serif;border:2px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer}
+.st button:first-child{border-radius:10px 0 0 10px}.st button:last-child{border-radius:0 10px 10px 0}
+.st input{width:100%;min-width:0;border-radius:0;border-left:0;border-right:0;text-align:center;padding:6px 2px}
+.ban{border-radius:14px;padding:12px 14px;margin-bottom:12px;background:var(--b);color:var(--f);font-weight:700;border:2px solid var(--c)}.k.ban{color:#fff}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px}.chip{flex:0 0 96px;border:3px solid transparent;border-radius:14px;background:var(--b);color:var(--f);padding:8px;cursor:pointer;text-align:center;font:inherit}
+.chip b{display:block;font-size:15px;color:var(--tx)}.chip span{font-size:13px;font-weight:800}.chip.sel{border-color:var(--tx)}
+.row{display:flex;gap:12px;align-items:center;padding:11px 4px;border-bottom:1px solid var(--bd)}.row:last-child{border:0}.row .t{width:72px;font-weight:800;color:var(--mu);font-size:15px}.row .n{flex:1;font-weight:700}.row .n small{display:block;color:var(--mu);font-size:14px;font-weight:500}
+.ctl{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-bottom:12px}.ctl label{font-size:13px;font-weight:800;color:var(--mu);display:block}
+details{margin-top:14px;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 14px}summary{font-weight:800;cursor:pointer}
+.note{font-size:14px;color:var(--mu)}h2{margin:0 0 10px;font-size:21px}
+@media(max-width:560px){h1{font-size:27px}.tabs button{font-size:13px}}
+</style></head><body>
+<div class="hero"><div class="w"><div class="top"><div><h1>🧭 TrackIn</h1><p class="tag">Don't just track attendance. <b>Plan every absence.</b></p></div>
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:end"><div><label class="l">YOUR CLASS</label><select id="sec"></select></div>
+<div><label class="l">MY TARGET</label><div class="seg" id="tg"><button data-g="75" class="on">75%</button><button data-g="80">80%</button><button data-g="90">90%</button></div></div></div></div>
+<div class="mid"><div class="ring"><svg viewBox="0 0 120 120"><circle class="rb" cx="60" cy="60" r="50"/><circle class="rf" id="rg" cx="60" cy="60" r="50"/></svg><div class="rt"><b id="s1">–</b><small id="s0">overall</small></div></div>
+<div class="sum"><div><small>Next class day</small><b id="s2">–</b></div><div><small>Bottleneck subject</small><b id="s3">–</b></div></div></div></div></div>
+<main>
+<div class="tabs" id="tabs"><button data-t="a" class="on">📚 Subjects</button><button data-t="b">📅 Daily Plan</button><button data-t="c">🛡️ LeaveSafe</button></div>
+<section class="pane on" id="pa"><div class="bar2"><button class="bt" id="srt" onclick="SR=!SR;calc()">↕ Riskiest first</button><button class="bt" onclick="fill(1)">🎲 Sample numbers</button><button class="bt" onclick="fill(0)">🧹 Clear all</button></div><div id="alerts"></div><div class="grid" id="cards"></div>
+<details><summary>⚙️ Dates &amp; holidays (optional)</summary><div class="ctl" style="margin-top:10px">
+<div><label>Count classes from</label><input type="date" id="from"></div><div><label>Semester ends</label><input type="date" id="end" value="2026-11-29"></div>
+<div><label>Projection date</label><input type="date" id="plan" value="2026-11-01"></div>
+<div style="flex:1;min-width:200px"><label>Holidays (YYYY-MM-DD, commas)</label><input id="hol" style="width:100%" placeholder="2026-11-08, 2026-11-09"></div></div>
+<p class="note">Each timetable period counts as one session. Your numbers are saved on this device.</p></details></section>
+<section class="pane" id="pb"><div class="box"><h2>Your next 14 class days</h2><div class="strip" id="strip"></div><div id="det"></div><button class="bt" style="margin-top:10px" id="cp" onclick="cpy()">📋 Copy this plan (for WhatsApp)</button></div></section>
+<section class="pane" id="pc"><div class="box"><h2>Can I take this leave?</h2><div class="ctl"><div><label>Leave from</label><input type="date" id="lf" value="2026-10-20"></div><div><label>Leave to</label><input type="date" id="lt" value="2026-10-24"></div></div><div id="lv"></div></div></section>
+<p class="note" style="margin-top:16px">Projections use your class timetable and the numbers you enter. They are planning aids, not official records – detention decisions rest with the college.</p>
+</main>
+<script>
+const TT=["9:00 AM","9:50 AM","10:50 AM","11:40 AM","12:30 PM","1:20 PM","2:10 PM","3:10 PM","4:00 PM"];
+const PF="Professional Ethics",UH="Universal Human Values-II",VR="Verbal Reasoning",SE="Social Engineering";
+const B2={A:"Transforms & Boundary Value Problems",B:"Biomedical Signals & Systems",C:"Electric & Electronic Circuits",D:"Digital Logic for Medical Systems",E:"Medical Physics",F:PF,G:UH,H:VR,I:SE,L:"DLMS / EEC Lab"};
+const DS2={A:B2.A,B:"Solid State Devices",C:"Computer Org & Architecture",D:"Digital Logic Design",E:"EM Theory & Interference",F:PF,G:UH,H:VR,I:SE,L:"Devices & Digital IC Lab"};
+const B3={A:"Probability & Statistics",B:"Microcontrollers & Medical Apps",C:"Biomedical Signal Processing",D:"Biometrics",E:"Modern Wireless Comm",F:"Principles of Medical Imaging",G:"Analytical & Logical Thinking",H:"Indian Art Form",I:"Community Connect",L:"MPMC Lab",M:"Bio DSP Lab"};
+const E3={A:"Discrete Mathematics",B:"Microprocessor & Interfacing",C:"VLSI Design & Technology",F:"Community Connect",G:"Analytical & Logical Thinking",H:"Indian Art Form",L:"VLSI / Microprocessor Lab"};
+const E4={A:"Behavioural Psychology",B:"Wireless Comm & Antenna",C:"Computer Comm & Network Security",D:"Semiconductor Memory Design",E:"Scripting for EDA",F:"Machine Learning for All",L:"CCNS Lab"};
+const SEC={
+"II BME":{s:B2,t:["E C I I - L L - -","C E B A - H H - -","B D A - - H G - -","A E B D - - - L L","F A C D - - - G G"]},
+"II ECE-DS A":{s:DS2,t:["E A I I - G G L L","C A E D - G - H H","A B C D - - H - -","B C A F - L L - -","D B E C - - - - -"]},
+"III BME":{s:B3,t:["G G L L - E B F H","M M G - - C D A B","- - - - - C A F D","- - I - - A C E B","I I - - - F A D E"]},
+"III ECE-A":{s:{...E3,D:"System & Network on Chip",E:"Machine Learning for All"},t:["E B B A - G G - -","H D B B - - G - -","C A D F - - - L L","A E C F - - - - -","D A E C - L L - -"]},
+"III ECE-B":{s:{...E3,D:"System & Network on Chip",E:"Machine Learning for All"},t:["L L - - - E B A D","G G - - - F B D C","G - - - - B B A H","L L - - - A C E F","- - - - - C A E D"]},
+"III ECE-DS":{s:{...E3,D:"Machine Learning for All",E:"Database Design & Management"},t:["E B C A - - - - -","C B D F - L L - -","H B A C - - - G G","A D E F - - - - -","D A E B - G - L L"]},
+"IV ECE-A":{s:E4,t:["C - A D - - - - -","C D B F - - - - -","B L E F - - - - -","F A E B - - - - -","C A D E - - - - -"]},
+"IV ECE-B":{s:E4,t:["C A E F - - - - -","C E F B - - - - -","C D A B - - - - -","D B L A - - - - -","E D F - - - - - -"]}};
+for(const k in SEC)SEC[k].w=SEC[k].t.map(r=>r.split(" "));
+const IC=[[/lab/i,"🔬"],[/math|transform|prob|statis/i,"➗"],[/circuit|electr|wireless|signal|device|vlsi|chip|memory|semicon|em theory|micro|digital|logic/i,"⚡"],[/learn|comput|script|database|architect|network/i,"💻"],[/psych|ethic|human|social|community|art|verbal|analytic/i,"🧠"],[/medic|bio|imaging/i,"🩺"]];
+const ico=n=>(IC.find(x=>x[0].test(n))||[0,"📘"])[1];
+const $=i=>document.getElementById(i),pad=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const dt=s=>new Date(s+"T00:00"),add=(s,n)=>{const d=dt(s);d.setDate(d.getDate()+n);return iso(d)};
+const show=s=>dt(s).toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"});
+const cnt=l=>{const c={};l.forEach(x=>c[x.s]=(c[x.s]||0)+1);return c};
+let D={},all=[],I={},S={},sel=null,TG=.75,SR=false,PL="";
+try{const p=JSON.parse(localStorage.getItem("trackin2")||"{}");D=p.D||{};TG=p.tg||.75;globalThis._s=p.sec}catch(e){}
+$("from").value=iso(new Date())<"2026-09-28"?"2026-09-28":iso(new Date());
+Object.keys(SEC).forEach(k=>$("sec").add(new Option(k)));
+if(globalThis._s&&SEC[globalThis._s])$("sec").value=globalThis._s;
+document.querySelectorAll("#tg button").forEach(b=>b.classList.toggle("on",+b.dataset.g==TG*100));
+function save(){try{localStorage.setItem("trackin2",JSON.stringify({sec:$("sec").value,tg:TG,D}))}catch(e){}}
+function sess(a,b){const r=[];if(!a||!b||b<a)return r;const H=new Set($("hol").value.split(",").map(x=>x.trim()).filter(Boolean)),W=SEC[$("sec").value].w;
+let d=dt(a),n=0;while(iso(d)<=b&&n++<400){const w=d.getDay(),k=iso(d);if(w>0&&w<6&&!H.has(k))W[w-1].forEach((x,p)=>{if(x!="-")r.push({d:k,p,s:x})});d.setDate(d.getDate()+1)}return r}
+function demo(k,c){let h=7;for(const ch of k+c)h=(h*31+ch.charCodeAt(0))>>>0;const n=32+h%13;return{a:Math.round(n*(.58+((h>>>5)%38)/100)),c:n}}
+function info(c,cn){const d=D[$("sec").value][c],R=cn[c]||0,cc=Math.max(0,d.c),a=Math.min(Math.max(0,d.a),cc),T=cc+R,need=p=>Math.max(0,Math.ceil(p*T-1e-9)-a);
+return{a,c:cc,R,T,pct:cc?100*a/cc:0,n75:need(.75),n90:need(.9),safe:R-need(TG),max:T?100*(a+R)/T:0,over:d.a>cc}}
+const lv=s=>s.safe<0?["k","Irreversible"]:s.safe==0?["r","No spare"]:s.safe<=2?["o","Tight"]:["g","Safe"];
+function build(){const k=$("sec").value;S=SEC[k].s;D[k]=D[k]||{};let h="";
+for(const c in S){D[k][c]=D[k][c]||demo(k,c);const v=D[k][c];
+h+=`<div class="sc" id="k_${c}"><div id="r_${c}"></div><div class="wi">🎚️ If I miss <b id="wn_${c}">0</b> more classes → <b id="wr_${c}"></b><input type="range" min="0" max="0" value="0" id="w_${c}" aria-label="What if" oninput="wi('${c}')"></div>
+<div class="inp"><label>Attended<div class="st"><button onclick="adj('${c}','a',-1)" aria-label="less">−</button><input type="number" min="0" id="a_${c}" value="${v.a}" oninput="ed('${c}')"><button onclick="adj('${c}','a',1)" aria-label="more">+</button></div></label>
+<label>Conducted<div class="st"><button onclick="adj('${c}','c',-1)" aria-label="less">−</button><input type="number" min="0" id="c_${c}" value="${v.c}" oninput="ed('${c}')"><button onclick="adj('${c}','c',1)" aria-label="more">+</button></div></label></div></div>`}
+$("cards").innerHTML=h;sel=null;calc()}
+function ed(c){D[$("sec").value][c]={a:+$("a_"+c).value||0,c:+$("c_"+c).value||0};calc()}
+function adj(c,f,n){const e=$(f+"_"+c);e.value=Math.max(0,(+e.value||0)+n);ed(c)}
+function fill(z){const k=$("sec").value;for(const c in S){D[k][c]=z?demo(k,c):{a:0,c:0};$("a_"+c).value=D[k][c].a;$("c_"+c).value=D[k][c].c}calc()}
+function wi(c){const s=I[c],e=$("w_"+c);e.max=s.R;const m=Math.min(+e.value,s.R),f=s.T?100*(s.a+s.R-m)/s.T:0;$("wn_"+c).textContent=m;$("wr_"+c).textContent=f.toFixed(1)+"% "+(f>=TG*100-1e-9?"✔":"⚠")}
+function calc(){const f=$("from").value,e=$("end").value,pl=$("plan").value,tp=Math.round(TG*100);all=sess(f,e);const cn=cnt(all),pc=cnt(sess(f,pl<e?pl:e));I={};
+let A=0,C=0,bn=null,al="";
+for(const c in S){const s=I[c]=info(c,cn);A+=s.a;C+=s.c;if(s.safe>=0&&(!bn||s.safe<bn.s))bn={c,s:s.safe}}
+for(const c in S){const s=I[c],[q,t]=lv(s),p=pc[c]||0,pr=100*(s.a+p)/((s.c+p)||1),ls=all.filter(x=>x.s==c),pn=s.safe>=0&&s.safe<s.R?show(ls[s.safe].d):null,nt=TG==.75?s.n75:TG==.9?s.n90:Math.max(0,Math.ceil(.8*s.T-1e-9)-s.a);
+if(s.safe<0)al+=`<div class="ban k">⚠ Mathematical Recovery Alert – ${S[c]}: even if you attend all ${s.R} remaining classes, your maximum is ${s.max.toFixed(1)}%. ${tp}% is unreachable on this timetable. Verify records and meet your faculty/mentor.</div>`;
+const K=$("k_"+c);K.className="sc "+q;K.style.order=SR?Math.round(s.safe):0;
+$("r_"+c).innerHTML=`<div class="hd"><div class="ic">${ico(S[c])}</div><div class="nm">${S[c]}</div><span class="badge">${t}</span></div>
+<div class="nums"><div class="pct">${s.pct.toFixed(1)}<small>%</small></div><span><b>${Math.max(0,s.safe)}</b>safe absences</span><span><b>${s.R}</b>classes left</span></div>
+<div class="bar"><i class="mx" style="width:${s.max}%"></i><i class="nw" style="width:${s.pct}%"></i><u style="left:${tp}%"><em>${tp}</em></u></div>
+<div class="f">To finish at ${tp}%: attend <b>${nt>s.R?"impossible":nt+" of "+s.R}</b></div>
+<div class="f">Best possible final: <b>${s.max.toFixed(1)}%</b> · On ${show(pl)} (attending all): <b>${pr.toFixed(1)}%</b></div>
+<div class="f">📍 Point of no return: <b>${pn||(s.safe<0?"already passed":"none this semester")}</b> <span class="note">(if you skipped every class from now)</span></div>${s.over?'<div class="f" style="color:var(--rc);font-weight:700">Attended cannot exceed conducted – counted as equal.</div>':""}`;wi(c)}
+$("alerts").innerHTML=al;const ov=C?100*A/C:0;$("s1").textContent=C?ov.toFixed(1)+"%":"–";
+$("rg").style.strokeDasharray=(ov*3.1416).toFixed(1)+" 315";
+$("s0").textContent=!C?"enter numbers":ov>=90?"🚀 flying":ov>=tp?"😎 on track":ov>=tp-5?"😬 careful":"🚨 danger zone";
+$("s3").textContent=bn?`${S[bn.c]} (${bn.s} spare)`:"None safe";days();leave();save()}
+function cls(c,k){const s=I[c];if(s.safe<0)return["k","Irreversible","Attend every class"];const r=s.safe-k;
+return r<0?["r","Must attend","Skipping breaks your target for this subject"]:r==0?["o","Attend","Skipping uses your last spare absence"]:["g","Flexible",`${r} spare absence${r>1?"s":""} would remain`]}
+function days(){const by={},ks=[];sess(add($("from").value,1),$("end").value).forEach(x=>{if(!by[x.d]){by[x.d]=[];ks.push(x.d)}by[x.d].push(x)});const ds=ks.slice(0,14);
+if(!ds.length){$("strip").innerHTML="";$("det").innerHTML="No class days left in this range.";$("s2").textContent="No classes";PL="";return}
+if(!sel||!ds.includes(sel))sel=ds[0];
+$("strip").innerHTML=ds.map(d=>{const k=cnt(by[d]);let x=99,z=0;for(const c in k){x=Math.min(x,I[c].safe-k[c]);if(I[c].safe<0)z=1}
+const q=z||x<0?"r":x==0?"o":x==1?"y":"g",t=z||x<0?"Must attend":x==0?"Attend":x==1?"Careful":"Flexible";
+return`<button class="chip ${q} ${d==sel?"sel":""}" onclick="sel='${d}';days()"><b>${show(d)}</b><span>${t}</span></button>`}).join("");
+const k0=cnt(by[ds[0]]),mu=Object.keys(k0).filter(c=>I[c].safe-k0[c]<0).length;$("s2").textContent=`${show(ds[0])} · ${mu?mu+" must-attend":"nothing critical"}`;
+const k=cnt(by[sel]);PL=`TrackIn plan – ${show(sel)} (${$("sec").value})\n`;
+$("det").innerHTML=`<p class="note" style="margin:0">${show(sel)} – advice assumes you skip only this day's classes.</p>`+by[sel].map(x=>{const[q,t,r]=cls(x.s,k[x.s]);PL+=`${TT[x.p]} ${S[x.s]}: ${t.toUpperCase()}\n`;return`<div class="row ${q}"><div class="t">${TT[x.p]}</div><div class="n">${ico(S[x.s])} ${S[x.s]}<small>${r}</small></div><span class="badge">${t}</span></div>`}).join("")}
+function cpy(){const b=$("cp");const done=()=>{b.textContent="✅ Copied!";setTimeout(()=>b.textContent="📋 Copy this plan (for WhatsApp)",1800)};
+try{navigator.clipboard.writeText(PL).then(done,()=>b.textContent="Select & copy manually")}catch(e){b.textContent="Select & copy manually"}}
+function ok(a,b){const l=cnt(all.filter(x=>x.d>=a&&x.d<=b));for(const c in l){const s=I[c];if(s.a+s.R-l[c]<TG*s.T-1e-9)return 0}return 1}
+function leave(){const f=$("from").value,e=$("end").value,a=$("lf").value,b=$("lt").value,tp=Math.round(TG*100);
+if(!a||!b||b<a){$("lv").innerHTML='<div class="ban o">Choose a leave start date on or before the end date.</div>';return}
+const l=cnt(all.filter(x=>x.d>=a&&x.d<=b)),n=Object.values(l).reduce((x,y)=>x+y,0);
+if(!n){$("lv").innerHTML='<div class="ban g">✔ No classes fall in this range (weekend, holiday, or outside the semester).</div>';return}
+let good=1,h="";for(const c in l){const s=I[c],fin=100*(s.a+s.R-l[c])/s.T,bad=fin<tp-1e-9;if(bad)good=0;
+h+=`<div class="row ${bad?"r":"g"}"><div class="n">${S[c]}<small>Missing ${l[c]} · ${Math.max(0,s.safe)} safe absences · final ${fin.toFixed(1)}%</small></div><span class="badge">${bad?(l[c]-Math.max(0,s.safe))+" too many":"Safe"}</span></div>`}
+let sug="";if(!good){const len=Math.round((dt(b)-dt(a))/864e5)+1;for(let d=f;d&&add(d,len-1)<=e;d=add(d,1)){if(ok(d,add(d,len-1))){sug=`Earliest safe window of the same length: <b>${show(d)} – ${show(add(d,len-1))}</b>.`;break}}
+sug=sug||"No fully safe window of this length exists this semester – try a shorter leave."}
+$("lv").innerHTML=`<div class="ban ${good?"g":"o"}">${good?"✔ LEAVE-SAFE – every subject stays at "+tp+"% or above if you attend everything else.":"⚠ CONDITIONAL – this leave drops a subject below "+tp+"%. "+sug}<br><span style="font-weight:600">${n} classes affected.</span></div>`+h}
+$("tabs").onclick=e=>{const t=e.target.dataset.t;if(!t)return;document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b==e.target));["a","b","c"].forEach(x=>$("p"+x).classList.toggle("on",x==t))};
+$("tg").onclick=e=>{const g=e.target.dataset.g;if(!g)return;TG=g/100;document.querySelectorAll("#tg button").forEach(b=>b.classList.toggle("on",b==e.target));calc()};
+$("sec").onchange=build;["from","end","plan","hol","lf","lt"].forEach(i=>$(i).oninput=calc);build();
+</script></body></html>
